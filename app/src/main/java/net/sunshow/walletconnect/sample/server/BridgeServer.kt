@@ -1,4 +1,4 @@
-package io.walletconnect.example.server
+package net.sunshow.walletconnect.sample.server
 
 import android.util.Log
 import com.squareup.moshi.Moshi
@@ -13,11 +13,11 @@ import java.util.concurrent.ConcurrentHashMap
 
 class BridgeServer(moshi: Moshi) : WebSocketServer(InetSocketAddress(PORT)) {
 
-    private val adapter = moshi.adapter<Map<String, String>>(
+    private val adapter = moshi.adapter<Map<String, Any>>(
         Types.newParameterizedType(
             Map::class.java,
             String::class.java,
-            String::class.java
+            Any::class.java
         )
     )
 
@@ -41,8 +41,8 @@ class BridgeServer(moshi: Moshi) : WebSocketServer(InetSocketAddress(PORT)) {
             conn ?: error("Unknown socket")
             message?.also {
                 val msg = adapter.fromJson(it) ?: error("Invalid message")
-                val type: String = msg["type"] ?: error("Type not found")
-                val topic: String = msg["topic"] ?: error("Topic not found")
+                val type: String = (msg["type"] ?: error("Type not found")) as String
+                val topic: String = (msg["topic"] ?: error("Topic not found")) as String
                 when (type) {
                     "pub" -> {
                         var sendMessage = false

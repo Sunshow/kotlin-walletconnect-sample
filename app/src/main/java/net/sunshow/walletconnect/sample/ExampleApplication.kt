@@ -3,7 +3,7 @@ package net.sunshow.walletconnect.sample
 import android.app.Application
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.walletconnect.example.server.BridgeServer
+import net.sunshow.walletconnect.sample.server.BridgeServer
 import okhttp3.OkHttpClient
 import org.komputing.khex.extensions.toNoPrefixHexString
 import org.walletconnect.Session
@@ -61,7 +61,7 @@ class ExampleApplication : Application() {
                 key
             )
             session = WCSession(
-                config,
+                config.toFullyQualifiedConfig(),
                 MoshiPayloadAdapter(moshi),
                 storage,
                 OkHttpTransport.Builder(client, moshi),

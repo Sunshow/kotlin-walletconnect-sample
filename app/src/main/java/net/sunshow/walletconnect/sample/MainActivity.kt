@@ -3,6 +3,7 @@ package net.sunshow.walletconnect.sample
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
@@ -65,7 +66,9 @@ class MainActivity : AppCompatActivity(), Session.Callback {
             ExampleApplication.resetSession()
             ExampleApplication.session.addCallback(this)
             val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(ExampleApplication.config.toWCUri())
+            val wc = ExampleApplication.config.toWCUri()
+            Log.i("#####", "WC Link: $wc")
+            i.data = Uri.parse(wc)
             startActivity(i)
         }
         binding.screenMainDisconnectButton.setOnClickListener {
